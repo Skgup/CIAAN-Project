@@ -18,30 +18,28 @@ Includes features like **profile management**, **image uploads (Cloudinary)**, *
 ## 📂 **Folder Structure**
 project-root/
 │
-├── backend/ # Node.js + Express server
-│ ├── src/
-│ │ ├── config/ # MongoDB, Cloudinary configs
-│ │ ├── controllers/ # Controllers (auth, posts, upload)
-│ │ ├── middleware/ # JWT auth, upload middleware
-│ │ ├── models/ # Mongoose models (User, Post)
-│ │ ├── routes/ # Express routes
-│ │ └── server.js # Entry point
-│ ├── package.json
-│ └── .env # Backend environment variables
+├── backend/                
+│   ├── src/
+│   │   ├── config/         # MongoDB, Cloudinary configs
+│   │   ├── controllers/    # Auth, Post, Upload controllers
+│   │   ├── middleware/     # Auth & Upload middleware
+│   │   ├── models/         # Mongoose models (User, Post)
+│   │   ├── routes/         # Express routes
+│   │   └── server.js       # Entry point
+│   ├── package.json
+│   └── .env                # Backend env variables
 │
-├── frontend/ # React (Vite) + Tailwind
-│ ├── src/
-│ │ ├── api/ # API functions (Axios)
-│ │ ├── components/ # Navbar, PostCard, etc.
-│ │ ├── pages/ # Profile.jsx, Feed.jsx, Login.jsx, Register.jsx
-│ │ └── main.jsx # Entry point
-│ ├── package.json
-│ └── .env # Frontend environment variables
+├── frontend/               
+│   ├── src/
+│   │   ├── api/            # Axios API functions
+│   │   ├── components/     # Navbar, PostCard, etc.
+│   │   ├── pages/          # Profile.jsx, Feed.jsx, Login.jsx, Register.jsx
+│   │   └── main.jsx        # Entry point
+│   ├── package.json
+│   └── .env                # Frontend env variables
 │
-└── README.md # Project documentation
+└── README.md               # Project documentation
 
-
----
 
 ## ⚙️ **Setup Instructions**
 
