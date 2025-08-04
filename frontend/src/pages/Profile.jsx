@@ -66,7 +66,6 @@ export default function Profile() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-
       <div className="max-w-4xl mx-auto mt-6">
         
         {/* ✅ Cover Image */}
@@ -118,9 +117,13 @@ export default function Profile() {
               <p className="text-sm">{exp.description}</p>
             </div>
           ))}
+
           {/* Add new experience */}
-          <input placeholder="Role" value={expEntry.role} onChange={(e)=>setExpEntry({...expEntry,role:e.target.value})} className="border p-1 rounded w-full mb-1" />
-          <input placeholder="Company" value={expEntry.company} onChange={(e)=>setExpEntry({...expEntry,company:e.target.value})} className="border p-1 rounded w-full mb-1" />
+          <input placeholder="Job Title (e.g. Software Engineer)" value={expEntry.role} onChange={(e)=>setExpEntry({...expEntry,role:e.target.value})} className="border p-1 rounded w-full mb-1" />
+          <input placeholder="Company Name (e.g. Google)" value={expEntry.company} onChange={(e)=>setExpEntry({...expEntry,company:e.target.value})} className="border p-1 rounded w-full mb-1" />
+          <input placeholder="Start Date (YYYY-MM-DD)" value={expEntry.startDate} onChange={(e)=>setExpEntry({...expEntry,startDate:e.target.value})} className="border p-1 rounded w-full mb-1" />
+          <input placeholder="End Date (YYYY-MM-DD or leave blank)" value={expEntry.endDate} onChange={(e)=>setExpEntry({...expEntry,endDate:e.target.value})} className="border p-1 rounded w-full mb-1" />
+          <textarea placeholder="Describe your role and responsibilities" value={expEntry.description} onChange={(e)=>setExpEntry({...expEntry,description:e.target.value})} className="border p-1 rounded w-full mb-1" />
           <button onClick={addExperience} className="bg-green-600 text-white px-3 py-1 rounded">Add Experience</button>
         </div>
 
@@ -134,9 +137,13 @@ export default function Profile() {
               <p className="text-sm">{edu.description}</p>
             </div>
           ))}
+
           {/* Add new education */}
-          <input placeholder="Degree" value={eduEntry.degree} onChange={(e)=>setEduEntry({...eduEntry,degree:e.target.value})} className="border p-1 rounded w-full mb-1" />
-          <input placeholder="School" value={eduEntry.school} onChange={(e)=>setEduEntry({...eduEntry,school:e.target.value})} className="border p-1 rounded w-full mb-1" />
+          <input placeholder="Degree (e.g. B.Sc. Computer Science)" value={eduEntry.degree} onChange={(e)=>setEduEntry({...eduEntry,degree:e.target.value})} className="border p-1 rounded w-full mb-1" />
+          <input placeholder="School / University" value={eduEntry.school} onChange={(e)=>setEduEntry({...eduEntry,school:e.target.value})} className="border p-1 rounded w-full mb-1" />
+          <input placeholder="Start Date (YYYY-MM-DD)" value={eduEntry.startDate} onChange={(e)=>setEduEntry({...eduEntry,startDate:e.target.value})} className="border p-1 rounded w-full mb-1" />
+          <input placeholder="End Date (YYYY-MM-DD)" value={eduEntry.endDate} onChange={(e)=>setEduEntry({...eduEntry,endDate:e.target.value})} className="border p-1 rounded w-full mb-1" />
+          <textarea placeholder="Describe your academic experience" value={eduEntry.description} onChange={(e)=>setEduEntry({...eduEntry,description:e.target.value})} className="border p-1 rounded w-full mb-1" />
           <button onClick={addEducation} className="bg-green-600 text-white px-3 py-1 rounded">Add Education</button>
         </div>
 
@@ -145,11 +152,11 @@ export default function Profile() {
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <form onSubmit={handleUpdate} className="bg-white p-6 rounded shadow-lg w-96">
               <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
-              <input name="name" value={form.name} onChange={handleChange} className="border w-full p-2 mb-2 rounded" />
-              <input name="headline" value={form.headline} onChange={handleChange} className="border w-full p-2 mb-2 rounded" />
-              <input name="location" value={form.location} onChange={handleChange} className="border w-full p-2 mb-2 rounded" />
-              <textarea name="bio" value={form.bio} onChange={handleChange} className="border w-full p-2 mb-2 rounded" />
-              <input name="skills" value={form.skills?.join(", ")} onChange={(e)=>setForm({...form,skills:e.target.value.split(",")})} className="border w-full p-2 mb-2 rounded" />
+              <input name="name" placeholder="Full Name" value={form.name} onChange={handleChange} className="border w-full p-2 mb-2 rounded" />
+              <input name="headline" placeholder="Professional Headline (e.g. Frontend Developer at XYZ)" value={form.headline} onChange={handleChange} className="border w-full p-2 mb-2 rounded" />
+              <input name="location" placeholder="Location (e.g. New York, USA)" value={form.location} onChange={handleChange} className="border w-full p-2 mb-2 rounded" />
+              <textarea name="bio" placeholder="Write a short bio about yourself" value={form.bio} onChange={handleChange} className="border w-full p-2 mb-2 rounded" />
+              <input name="skills" placeholder="Skills (comma-separated e.g. React, Node.js, MongoDB)" value={form.skills?.join(", ")} onChange={(e)=>setForm({...form,skills:e.target.value.split(",")})} className="border w-full p-2 mb-2 rounded" />
 
               <div className="flex justify-end gap-3">
                 <button type="button" onClick={()=>setIsEditing(false)} className="px-3 py-2 border rounded">Cancel</button>
