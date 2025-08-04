@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getUserProfile } from "../api/api";
 
 export default function Navbar() {
@@ -8,6 +8,10 @@ export default function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [user, setUser] = useState(null);
   const token = localStorage.getItem("token");
+
+  // ✅ Refs for detecting outside clicks
+  const mobileMenuRef = useRef(null);
+  const profileMenuRef = useRef(null);
 
   useEffect(() => {
     if (token) {
@@ -22,9 +26,32 @@ export default function Navbar() {
     }
   }, [token]);
 
+  // ✅ Click Outside Handler
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target) &&
+        !event.target.closest("button.mobile-menu-btn")
+      ) {
+        setMobileMenu(false);
+      }
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target) &&
+        !event.target.closest("img.profile-avatar")
+      ) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
+    setMobileMenu(false);
     navigate("/login");
   };
 
@@ -36,7 +63,7 @@ export default function Navbar() {
         in
       </Link>
 
-      {/* ✅ Search Bar (hidden on small screens) */}
+      {/* ✅ Search Bar */}
       {token && (
         <div className="relative hidden md:block flex-1 mx-4 max-w-md">
           <span className="material-icons absolute left-3 top-2.5 text-gray-500">search</span>
@@ -58,11 +85,7 @@ export default function Navbar() {
             { to: "/messages", icon: "chat", label: "Messaging" },
             { to: "/notifications", icon: "notifications", label: "Notifications" }
           ].map((item, i) => (
-            <Link
-              key={i}
-              to={item.to}
-              className="flex flex-col items-center hover:text-blue-700 transition"
-            >
+            <Link key={i} to={item.to} className="flex flex-col items-center hover:text-blue-700 transition">
               <span className="material-icons">{item.icon}</span>
               <span className="text-xs">{item.label}</span>
             </Link>
@@ -70,16 +93,16 @@ export default function Navbar() {
 
           {/* ✅ Profile Avatar Dropdown */}
           {user && (
-            <div className="relative">
+            <div className="relative" ref={profileMenuRef}>
               <img
                 src={user?.profileImage || "https://via.placeholder.com/40"}
                 alt="Profile"
-                className="w-9 h-9 rounded-full cursor-pointer border border-gray-300 hover:ring-2 hover:ring-blue-500 transition"
+                className="profile-avatar w-9 h-9 rounded-full cursor-pointer border border-gray-300 hover:ring-2 hover:ring-blue-500 transition"
                 onClick={() => setShowMenu(!showMenu)}
               />
               {showMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg p-2 animate-fadeIn">
-                  <Link to="/profile" className="block px-4 py-2 rounded hover:bg-gray-100">
+                  <Link to="/profile" className="block px-4 py-2 rounded hover:bg-gray-100" onClick={() => setShowMenu(false)}>
                     👤 View Profile
                   </Link>
                   <hr className="my-1" />
@@ -96,22 +119,24 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* ✅ Mobile Hamburger Menu (Visible only on small screens) */}
-{token && (
-  <div className="block md:hidden">
-    <button
-      className="material-icons text-gray-700 text-3xl focus:outline-none"
-      onClick={() => setMobileMenu(!mobileMenu)}
-    >
-      menu
-    </button>
-  </div>
-)}
-
+      {/* ✅ Mobile Hamburger Menu */}
+      {token && (
+        <div className="block md:hidden">
+          <button
+            className="mobile-menu-btn material-icons text-gray-700 text-3xl focus:outline-none"
+            onClick={() => setMobileMenu(!mobileMenu)}
+          >
+            menu
+          </button>
+        </div>
+      )}
 
       {/* ✅ Mobile Slide-out Menu */}
       {mobileMenu && token && (
-        <div className="absolute top-16 left-0 w-full bg-white border-t shadow-md flex flex-col items-start px-6 py-4 space-y-3 md:hidden">
+        <div
+          ref={mobileMenuRef}
+          className="absolute top-16 left-0 w-full bg-white border-t shadow-md flex flex-col items-start px-6 py-4 space-y-3 md:hidden animate-slideDown"
+        >
           {[
             { to: "/feed", label: "Home" },
             { to: "/network", label: "My Network" },
@@ -119,17 +144,23 @@ export default function Navbar() {
             { to: "/messages", label: "Messaging" },
             { to: "/notifications", label: "Notifications" }
           ].map((item, i) => (
-            <Link key={i} to={item.to} className="w-full py-2 text-gray-700 hover:text-blue-600 border-b">
+            <Link
+              key={i}
+              to={item.to}
+              className="w-full py-2 text-gray-700 hover:text-blue-600 border-b"
+              onClick={() => setMobileMenu(false)} // ✅ Auto close
+            >
               {item.label}
             </Link>
           ))}
-          <Link to="/profile" className="w-full py-2 text-gray-700 hover:text-blue-600 border-b">
+          <Link
+            to="/profile"
+            className="w-full py-2 text-gray-700 hover:text-blue-600 border-b"
+            onClick={() => setMobileMenu(false)} // ✅ Auto close
+          >
             👤 View Profile
           </Link>
-          <button
-            onClick={logout}
-            className="w-full text-left py-2 text-red-600 hover:bg-gray-100"
-          >
+          <button onClick={logout} className="w-full text-left py-2 text-red-600 hover:bg-gray-100">
             🚪 Logout
           </button>
         </div>
