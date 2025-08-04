@@ -15,9 +15,10 @@ export default function Login() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       navigate("/feed");
-    // eslint-disable-next-line no-unused-vars
+ 
     } catch (err) {
       alert("Invalid credentials. Please try again.");
+      console.log("error"+ err);
     }
   };
 

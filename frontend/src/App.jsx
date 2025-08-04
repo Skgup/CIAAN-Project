@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Feed from "./pages/Feed";
 import Profile from "./pages/profile";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer"
 function App() {
   const token = localStorage.getItem("token");
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/feed" element={token ? <Feed /> : <Navigate to="/login" />} />
         <Route path="/profile" element={token ? <Profile /> : <Navigate to="/login" />} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 }

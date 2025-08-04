@@ -81,6 +81,10 @@ npm install
 VITE_API_BASE_URL=http://localhost:5000/api
 
 
+###frontend start 
+
+npm run dev
+
 🔗 API Endpoints
 Auth
 POST /api/auth/register → Register new user
