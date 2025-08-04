@@ -5,6 +5,12 @@ import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer"
+import { socket } from "./socket";
+
+socket.on("connect", () => {
+  console.log("✅ Socket connected:", socket.id);
+});
+
 function App() {
   const token = localStorage.getItem("token");
   return (
